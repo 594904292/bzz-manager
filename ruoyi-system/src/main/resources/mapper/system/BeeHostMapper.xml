@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BeeHostMapper">
+    
+    <resultMap type="BeeHost" id="BeeHostResult">
+        <result property="hostId"    column="host_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="hostOs"    column="host_os"    />
+        <result property="hostIp"    column="host_ip"    />
+        <result property="hostUser"    column="host_user"    />
+        <result property="hostPass"    column="host_pass"    />
+        <result property="nodeCnt"    column="node_cnt"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectBeeHostVo">
+        select host_id, user_id, host_os, host_ip, host_user, host_pass, node_cnt, status, create_by, create_time, update_by, update_time, remark from bee_host
+    </sql>
+
+    <select id="selectBeeHostList" parameterType="BeeHost" resultMap="BeeHostResult">
+        <include refid="selectBeeHostVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="hostOs != null  and hostOs != ''"> and host_os = #{hostOs}</if>
+            <if test="hostIp != null  and hostIp != ''"> and host_ip = #{hostIp}</if>
+            <if test="hostUser != null  and hostUser != ''"> and host_user = #{hostUser}</if>
+            <if test="hostPass != null  and hostPass != ''"> and host_pass = #{hostPass}</if>
+            <if test="nodeCnt != null "> and node_cnt = #{nodeCnt}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectBeeHostById" parameterType="Long" resultMap="BeeHostResult">
+        <include refid="selectBeeHostVo"/>
+        where host_id = #{hostId}
+    </select>
+        
+    <insert id="insertBeeHost" parameterType="BeeHost" useGeneratedKeys="true" keyProperty="hostId">
+        insert into bee_host
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="hostOs != null">host_os,</if>
+            <if test="hostIp != null and hostIp != ''">host_ip,</if>
+            <if test="hostUser != null and hostUser != ''">host_user,</if>
+            <if test="hostPass != null">host_pass,</if>
+            <if test="nodeCnt != null">node_cnt,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="hostOs != null">#{hostOs},</if>
+            <if test="hostIp != null and hostIp != ''">#{hostIp},</if>
+            <if test="hostUser != null and hostUser != ''">#{hostUser},</if>
+            <if test="hostPass != null">#{hostPass},</if>
+            <if test="nodeCnt != null">#{nodeCnt},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBeeHost" parameterType="BeeHost">
+        update bee_host
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="hostOs != null">host_os = #{hostOs},</if>
+            <if test="hostIp != null and hostIp != ''">host_ip = #{hostIp},</if>
+            <if test="hostUser != null and hostUser != ''">host_user = #{hostUser},</if>
+            <if test="hostPass != null">host_pass = #{hostPass},</if>
+            <if test="nodeCnt != null">node_cnt = #{nodeCnt},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where host_id = #{hostId}
+    </update>
+
+    <delete id="deleteBeeHostById" parameterType="Long">
+        delete from bee_host where host_id = #{hostId}
+    </delete>
+
+    <delete id="deleteBeeHostByIds" parameterType="String">
+        delete from bee_host where host_id in 
+        <foreach item="hostId" collection="array" open="(" separator="," close=")">
+            #{hostId}
+        </foreach>
+    </delete>
+</mapper>
